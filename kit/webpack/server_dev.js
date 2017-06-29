@@ -1,3 +1,4 @@
+/* @flow */
 /* eslint import/no-extraneous-dependencies: ["error", {"devDependencies": true}] */
 
 // Server-side bundle for development.  Just like the production bundle, this
@@ -27,10 +28,12 @@ import ExtractTextPlugin from 'extract-text-webpack-plugin';
 import CopyWebpackPlugin from 'copy-webpack-plugin';
 
 /* Local */
-import { css } from './common';
+import { css, stats } from './common';
 import PATHS from '../../config/paths';
 
 // ----------------------
+
+/* eslint-disable flowtype/require-parameter-type */
 
 // Simple Webpack plugin for (re)spawning the development server after
 // every build
@@ -43,7 +46,13 @@ class ServerDevPlugin {
       });
     });
   }
+
+  server: {
+    kill(): void
+  };
 }
+
+/* eslint-enable flowtype/require-parameter-type */
 
 const extractCSS = new ExtractTextPlugin({
   filename: 'assets/css/style.css',
@@ -54,7 +63,16 @@ export default [
   // Server bundle
   new WebpackConfig().extend('[root]/dev.js', '[root]/server.js').merge({
     watch: true,
-    stats: 'none',
+    stats: Object.assign(stats, {
+      // Add asset Information
+      assets: false,
+      // Add the hash of the compilation
+      hash: false,
+      // Add timing information
+      timings: false,
+      // Add warnings
+      warnings: false,
+    }),
 
     // Production server entry point
     entry: {

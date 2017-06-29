@@ -1,4 +1,6 @@
+/* @flow */
 /* eslint import/no-extraneous-dependencies: ["error", {"devDependencies": true}] */
+/* eslint-disable flowtype/require-return-type, flowtype/require-parameter-type */
 
 // Browser dev server.  This config will be used with `webpack-dev-server`
 // to enable hot-reloading.  Sourcemaps and full debugging is enabled.
@@ -89,7 +91,7 @@ export default new WebpackConfig().extend({
     hot: true,
 
     // Disable build's information
-    noInfo: false,
+    // noInfo: false,
 
     // Show a full-screen overlay in the browser when there is a
     // compiler error

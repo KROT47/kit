@@ -1,3 +1,4 @@
+/* @flow */
 /* eslint-disable import/prefer-default-export, no-console */
 
 
@@ -15,9 +16,18 @@ import chalk from 'chalk';
 // IP library, for determining the local network interface
 import ip from 'ip';
 
+// flow types
+type OptType = {
+  chalk?: Function,
+  bold?: Function,
+  type: string,
+  host: string,
+  port: number | string,
+};
+
 // ----------------------
 
-export function logServerStarted(opt = {}) {
+export function logServerStarted(opt: OptType) {
   let message = chalk.green(`Running ${(opt.chalk || chalk.bold)(opt.type)} in ${chalk.bold(process.env.NODE_ENV)} mode\n\n`);
 
   const localURL = `http://${opt.host}:${opt.port}`;

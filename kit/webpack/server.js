@@ -1,3 +1,4 @@
+/* @flow */
 /* eslint import/no-extraneous-dependencies: ["error", {"devDependencies": true}] */
 
 // ----------------------
@@ -17,15 +18,19 @@ import { css } from './common';
 
 // ----------------------
 
+/* eslint-disable flowtype/require-return-type, flowtype/require-parameter-type */
+
 // Helper function to recursively filter through loaders, and apply the
 // supplied function
-function recursiveLoader(root = {}, func) {
+function recursiveLoader(root, func) {
   if (root.rules) {
     root.use.forEach(l => recursiveLoader(l, func));
   }
   if (root.loader) return func(root);
   return false;
 }
+
+/* eslint-enable flowtype/require-return-type, flowtype/require-parameter-type */
 
 export default new WebpackConfig().extend({
   '[root]/base.js': conf => {
@@ -52,7 +57,7 @@ export default new WebpackConfig().extend({
   module: {
     rules: [
       // CSS loaders
-      ...(function* loadCss() {
+      ...(function* loadCss(): Generator<Object, void, any> {
         for (const loader of css.rules) {
           // Iterate over CSS/SASS/LESS and yield local and global mod configs
           for (const mod of css.getModuleRegExp(loader.ext)) {
@@ -80,6 +85,7 @@ export default new WebpackConfig().extend({
         query: {
           presets: [
             'react',
+            'flow',
           ],
           plugins: [
             'transform-object-rest-spread',

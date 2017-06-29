@@ -1,3 +1,4 @@
+/* @flow */
 /* eslint import/no-extraneous-dependencies: ["error", {"devDependencies": true}] */
 
 // Server-side production web server.  Generates a `dist/server.js` file that

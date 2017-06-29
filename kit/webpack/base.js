@@ -1,3 +1,4 @@
+/* @flow */
 /* eslint import/no-extraneous-dependencies: ["error", {"devDependencies": true}] */
 
 // This is our base config file.  All of our configs will extend from this,

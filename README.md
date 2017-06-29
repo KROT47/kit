@@ -38,7 +38,7 @@ Want to install quickly? Use the [CLI](https://github.com/reactql/cli) - it does
 - Universal building - both browser + Node.js web server
 - Easily extendable [webpack-config](https://fitbit.github.io/webpack-config/) files
 - [Production bundling](https://reactql.org/docs/setup#production), for generating optimised server and client code
-- [Static bundling mode](https://reactql.org/docs/setup#browser) for hosting your full app on any static host -- Github pages, S3, Netlify, etc 
+- [Static bundling mode](https://reactql.org/docs/setup#browser) for hosting your full app on any static host -- Github pages, S3, Netlify, etc
 - Separate local + vendor bundles, for better browser caching/faster builds
 - Dynamic polyfills, courtesy of [babel-preset-env](https://github.com/babel/babel-preset-env)
 - Aggressive code minification with [Uglify](https://webpack.github.io/docs/list-of-plugins.html#uglifyjsplugin)
@@ -56,6 +56,22 @@ Want to install quickly? Use the [CLI](https://github.com/reactql/cli) - it does
 - Tons of code commentary to fill you in on what's happening under the hood
 - Extensive, up-to-date [online documentation](https://reactql.org/docs/)
 - [Examples repository](https://github.com/reactql/examples), showing you how to add a GraphQL server, run without GraphQL, take advantage of Redux, etc.
+
+## Flow - static type checker ([flow.org](https://flow.org))
+Flow is Facebook's project to prevent runtime errors right while developing.
+Flow replaces React PropTypes with own types. This allows to catch errors while compiling rather then in browser.
+There are some useful [docs](https://flow.org/en/docs/) that you should be aware of.
+**Using flow**
+Flow lib lies in `flow-typed` directory by default. Use [flow-typed](https://github.com/flowtype/flow-typed) to easily add and update modules added by community or add your own.
+All global variables should be declared in `flow-typed/globals.js`.
+For configuration settings goto `.flowconfig` in project root.
+There are no `.flowconfig.js` analog so all user-defined paths in `config/paths.js` should be added by hand.
+If any errors occured which you can't handle you can use magic comments and types to skip them and resolve later:
+- Comments `// $FlowFixMe` and `// $FlowIssue` - flow will ignore next line ( to redefine see `.flowconfig` )
+- Types `$FlowFixMe` and `$FlowTODO` - flow will ignore these types ( to redefine see `.flowconfig` )
+
+[Flow doesn't understand decorators](https://flow.org/en/docs/config/options/#toc-esproposal-decorators-ignore-warn) yet due to early stage so better not to use them.
+Commands `npm start` will start flow service automatically in background watch mode ( only in `development` env ).
 
 ## Usage
 

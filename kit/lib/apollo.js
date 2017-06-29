@@ -1,11 +1,21 @@
+/* @flow */
 // ----------------------
 // IMPORTS
 
 // Apollo client library
 import { createNetworkInterface, ApolloClient } from 'react-apollo';
 
+/* eslint-disable import/no-extraneous-dependencies */
+import type { ApolloClient as ApolloClientType } from 'apollo-client';
+/* eslint-enable import/no-extraneous-dependencies */
+
 // Custom configuration/settings
 import { APOLLO } from 'config/project';
+
+// flow types
+type OptType = {
+    ssrMode?: $PropertyType<ApolloClient, 'ssrMode'>,
+};
 
 // ----------------------
 
@@ -18,20 +28,21 @@ const networkInterface = createNetworkInterface({
 
 // Helper function to create a new Apollo client, by merging in
 // passed options alongside the defaults
-function createClient(opt = {}) {
+function createClient(opt: OptType = {}): ApolloClientType {
   return new ApolloClient(Object.assign({
+    ssrMode: false,
     reduxRootSelector: state => state.apollo,
     networkInterface,
   }, opt));
 }
 
 // Creates a new browser client
-export function browserClient() {
+export function browserClient(): ApolloClientType {
   return createClient();
 }
 
 // Creates a new server-side client
-export function serverClient() {
+export function serverClient(): ApolloClientType {
   return createClient({
     ssrMode: true,
   });

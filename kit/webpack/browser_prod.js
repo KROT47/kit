@@ -1,3 +1,4 @@
+/* @flow */
 /* eslint import/no-extraneous-dependencies: ["error", {"devDependencies": true}] */
 
 // This config generates a production-grade browser bundle.  It minifies and

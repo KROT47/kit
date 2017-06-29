@@ -1,4 +1,6 @@
+/* @flow */
 /* eslint import/no-extraneous-dependencies: ["error", {"devDependencies": true}] */
+/* eslint-disable flowtype/require-return-type */
 
 // ----------------------
 // IMPORTS
@@ -44,7 +46,7 @@ export const css = {
 
   // Return an array containing the module RegExp and css-loader config,
   // based on the original file extension
-  getModuleRegExp(ext) {
+  getModuleRegExp(ext: string) {
     return [
       [`[^\\.global]\\.${ext}$`, { modules: true }],
       [`\\.global\\.${ext}$`, { modules: false }],
@@ -52,7 +54,7 @@ export const css = {
   },
 
   getDevLoaders() {
-    return (function* loadCss() {
+    return (function* loadCss(): Generator<Object, void, any> {
       for (const loader of css.rules) {
         // Iterate over CSS/SASS/LESS and yield local and global mod configs
         for (const mod of css.getModuleRegExp(loader.ext)) {
@@ -81,8 +83,8 @@ export const css = {
     }());
   },
 
-  getExtractCSSLoaders(extractCSS, sourceMap = false) {
-    return (function* loadCss() {
+  getExtractCSSLoaders(extractCSS: Object, sourceMap: boolean = false) {
+    return (function* loadCss(): Generator<Object, void, any> {
       for (const loader of css.rules) {
         // Iterate over CSS/SASS/LESS and yield local and global mod configs
         for (const mod of css.getModuleRegExp(loader.ext)) {
@@ -124,7 +126,7 @@ export const stats = {
   // Show cached assets (setting this to `false` only shows emitted files)
   cachedAssets: false,
   // Add children information
-  children: false,
+  children: true,
   // Add chunk information (setting this to `false` allows for a less verbose output)
   chunks: false,
   // Add built modules information to chunk information
@@ -175,7 +177,7 @@ export const stats = {
 
 // Return a new Webpack plugin that shows a progress bar of what is being
 // built, and a 0-100% indicator of the Webpack build status
-export function webpackProgress(what = chalk.magenta.bold('ReactQL')) {
+export function webpackProgress(what: string = chalk.magenta.bold('ReactQL')) {
   return new ProgressBarPlugin({
     format: `${what} building [:bar] ${chalk.green.bold(':percent')} (:elapsed seconds)`,
   });

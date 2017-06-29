@@ -1,3 +1,4 @@
+/* @flow */
 /* eslint-disable no-param-reassign, no-console */
 
 // Server entry point, for Webpack.  This will spawn a Koa web server
@@ -72,11 +73,14 @@ import App from 'src/app';
 // so we can serve static files
 import PATHS from 'config/paths';
 
+// flow types
+import type { Middleware, Context } from 'koa';
+
 // ----------------------
 
 // Static file middleware
-export function staticMiddleware() {
-  return async function staticMiddlewareHandler(ctx, next) {
+export function staticMiddleware(): Middleware {
+  return async function staticMiddlewareHandler(ctx: Context, next: () => Promise<void>): * {
     try {
       if (ctx.path !== '/') {
         return await koaSend(
@@ -97,8 +101,12 @@ export function staticMiddleware() {
 
 // Function to create a React handler, per the environment's correct
 // manifest files
-export function createReactHandler(css = [], scripts = [], chunkManifest = {}) {
-  return async function reactHandler(ctx) {
+export function createReactHandler(
+  css: string = '',
+  scripts: Array<string> = [],
+  chunkManifest: Object = {},
+): Function {
+  return async function reactHandler(ctx: Context): Promise<void> {
     const routeContext = {};
 
     // Create a new server Apollo client for this request
@@ -163,7 +171,7 @@ export function createReactHandler(css = [], scripts = [], chunkManifest = {}) {
 }
 
 // Run the server
-export default (async function server() {
+export default (async function server(): Object {
   return {
     router: (new KoaRouter())
       // Set-up a general purpose /ping route to check the server is alive

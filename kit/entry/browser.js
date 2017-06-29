@@ -1,3 +1,4 @@
+/* @flow */
 // Browser entry point, for Webpack.  We'll grab the browser-flavoured
 // versions of React mounting, routing etc to hook into the DOM
 

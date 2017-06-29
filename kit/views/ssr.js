@@ -1,3 +1,4 @@
+/* @flow */
 /* eslint-disable react/no-danger, no-return-assign, no-param-reassign */
 
 // Component to render the full HTML response in React
@@ -5,11 +6,19 @@
 // ----------------------
 // IMPORTS
 import React from 'react';
-import PropTypes from 'prop-types';
 
 // ----------------------
 
-const Html = ({ head, html, scripts, window, css }) => (
+// flow types
+type PropsType = {
+  head: Object,
+  html: string,
+  window: Object,
+  scripts: Array<string>,
+  css: string,
+};
+
+const Html = ({ head, html, scripts, window, css }: PropsType) => (
   <html lang="en" prefix="og: http://ogp.me/ns#">
     <head>
       <meta charSet="utf-8" />
@@ -34,13 +43,5 @@ const Html = ({ head, html, scripts, window, css }) => (
     </body>
   </html>
 );
-
-Html.propTypes = {
-  head: PropTypes.object.isRequired,
-  html: PropTypes.string.isRequired,
-  window: PropTypes.object.isRequired,
-  scripts: PropTypes.arrayOf(PropTypes.string).isRequired,
-  css: PropTypes.string.isRequired,
-};
 
 export default Html;

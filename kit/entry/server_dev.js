@@ -1,3 +1,4 @@
+/* @flow */
 /* eslint-disable no-console */
 
 // Production server entry point.  Spawns the server on default HOST:PORT

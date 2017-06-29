@@ -1,3 +1,4 @@
+/* @flow */
 // Sample reducer, showing how you can 'listen' to the `INCREMENT_COUNTER`
 // action, and update the counter state
 
@@ -5,7 +6,15 @@
 // IMPORTS
 
 /* NPM */
-import Immutable from 'seamless-immutable';
+import Immutable, { type Immutable as ImmutableType } from 'seamless-immutable';
+
+// flow types
+// @see: 'flow-typed/redux.js'
+import type { VoidActionType } from 'flow-typed/redux';
+
+type StateType = {
+  count: number,
+};
 
 // ----------------------
 
@@ -27,7 +36,10 @@ export default {
   // function that handles the 'listening' to Redux to know how to manipulate state
   counter: {
     state: initialState,
-    reducer(state = initialState, action) {
+    reducer(
+      state: ImmutableType<StateType> = initialState,
+      action: VoidActionType,
+    ): ImmutableType<StateType> {
       if (action.type === 'INCREMENT_COUNTER') {
         return state.merge({
           count: state.count + 1,

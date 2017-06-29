@@ -1,10 +1,10 @@
+/* @flow */
 /* eslint-disable no-param-reassign */
 
 // ----------------------
 // IMPORTS
 
 import React from 'react';
-import PropTypes from 'prop-types';
 
 import { Route, Redirect as ReactRouterRedirect } from 'react-router-dom';
 
@@ -13,16 +13,16 @@ import { Route, Redirect as ReactRouterRedirect } from 'react-router-dom';
 // <Status code="xxx"> component.  Updates the context router's context, which
 // can be used by the server handler to respond to the status on the server.
 class Status extends React.PureComponent {
-  static propTypes = {
-    code: PropTypes.number.isRequired,
-    children: PropTypes.node,
-  }
-
   static defaultProps = {
     children: null,
   }
 
-  render() {
+  props: {
+    code: number,
+    children: ?React$Element<*>,
+  };
+
+  render(): React$Element<*> {
     const { code, children } = this.props;
     return (
       <Route render={({ staticContext }) => {
@@ -40,15 +40,15 @@ class Status extends React.PureComponent {
 // In production, it will issue a hard 404 and render.  In the browser, it will
 // simply render.
 export class NotFound extends React.PureComponent {
-  static propTypes = {
-    children: PropTypes.node,
-  }
-
   static defaultProps = {
     children: null,
   }
 
-  render() {
+  props: {
+    children: ?React$Element<*>,
+  };
+
+  render(): React$Element<*> {
     const { children } = this.props;
 
     return (
@@ -59,19 +59,23 @@ export class NotFound extends React.PureComponent {
   }
 }
 
+// flow types
+type DefaultPropsType = {
+    from: ?string,
+    push: boolean,
+    permanent: boolean,
+};
+
+type PropsType = {
+    to: string | Object,
+    from: ?string,
+    push?: boolean,
+    permanent?: boolean,
+};
+
 // <Redirect> component. Mirrors React Router's component by the same name,
 // except it sets a 301/302 status code for setting server-side HTTP headers.
-export class Redirect extends React.PureComponent {
-
-  static propTypes = {
-    to: PropTypes.oneOfType([
-      PropTypes.string,
-      PropTypes.object,
-    ]).isRequired,
-    from: PropTypes.string,
-    push: PropTypes.bool,
-    permanent: PropTypes.bool,
-  };
+export class Redirect extends React.PureComponent<DefaultPropsType, PropsType, void> {
 
   static defaultProps = {
     from: null,
@@ -79,7 +83,7 @@ export class Redirect extends React.PureComponent {
     permanent: false,
   }
 
-  render() {
+  render(): React$Element<*> {
     const { to, from, push, permanent } = this.props;
     const code = permanent ? 301 : 302;
     return (

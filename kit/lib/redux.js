@@ -1,3 +1,4 @@
+/* @flow */
 /* eslint-disable no-underscore-dangle */
 
 /*
@@ -19,6 +20,12 @@ import Immutable from 'seamless-immutable';
 // Reducers -- CHANGE THIS TO REFLECT YOUR OWN REDUCERS!
 import counterReducer from 'reducers/counter';
 
+// flow types
+/* eslint-disable import/no-extraneous-dependencies */
+import type { ApolloClient as ApolloClientType } from 'apollo-client';
+import type { Store as StoreType } from 'redux';
+/* eslint-enable import/no-extraneous-dependencies */
+
 // ----------------------
 
 // Detect if we're both in the browser, AND we have dehydrated state
@@ -30,7 +37,7 @@ const reducers = [counterReducer];
 // Helper function that 'unwinds' the { reducerKey {state, reducer} } format
 // from each imported reducer, and either returns the `reducer` function (if
 // true) or the `state`, as an Immutable collection or the default state
-function unwind(reducer = true) {
+function unwind(reducer: * = true): * {
   // Get the combined reducers `reducer` or `state` object
   const r = Object.assign({},
     ...[].concat(...reducers.map(arr => Object.keys(arr).map(
@@ -49,7 +56,7 @@ function unwind(reducer = true) {
   })));
 }
 
-export default function createNewStore(apolloClient) {
+export default function createNewStore(apolloClient: ApolloClientType): StoreType {
   const store = createStore(
     // By default, we'll use just the apollo reducer.  We can easily add our
     // own here, for global store management outside of Apollo

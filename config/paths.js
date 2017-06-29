@@ -1,3 +1,4 @@
+/* @flow */
 // ----------------------
 // IMPORTS
 
@@ -42,4 +43,7 @@ module.exports = {
   // Public.  This is where our web server will start looking to serve
   // static files from
   public: path.join(root, 'dist', 'public'),
+
+  // FlowTyped.  Flow types declarations are lying here.
+  'flow-typed': path.join(root, 'dist', 'flow-typed'),
 };

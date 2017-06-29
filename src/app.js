@@ -1,3 +1,4 @@
+/* @flow */
 // ----------------------
 // IMPORTS
 
@@ -5,7 +6,6 @@
 
 // React
 import React from 'react';
-import PropTypes from 'prop-types';
 
 // GraphQL
 import { graphql } from 'react-apollo';
@@ -23,6 +23,7 @@ import {
 // <Helmet> component for setting the page title
 import Helmet from 'react-helmet';
 
+
 /* Local */
 
 // NotFound 404 handler for unknown routes
@@ -30,6 +31,10 @@ import { NotFound, Redirect } from 'kit/lib/routing';
 
 // GraphQL queries
 import allMessages from 'src/queries/all_messages.gql';
+
+// flow types
+// @see: 'flow-typed/redux.js'
+import type { DispatchType, VoidActionType } from 'flow-typed/redux';
 
 // Styles
 import './styles.global.css';
@@ -63,10 +68,10 @@ const WhenNotFound = () => (
 
 // Specify PropTypes if the `match` object, which is injected to props by
 // the <Route> component
-Page.propTypes = {
-  match: PropTypes.shape({
-    params: PropTypes.object,
-  }).isRequired,
+Page.props = {
+  match: {
+    params: Object,
+  },
 };
 
 // Stats pulled from the environment.  This demonstrates how data will
@@ -89,33 +94,36 @@ const Stats = () => {
 
 // Now, let's create a GraphQL-enabled component...
 
+// flow types
+type DefaultPropsType = void;
+
+type StateType = void;
+
+type PropsType = {
+  data: {
+    allMessages: [{ text: string }],
+  },
+};
+
 // ... then, let's create the component and decorate it with the `graphql`
 // HOC that will automatically populate `this.props` with the query data
 // once the GraphQL API request has been completed
-@graphql(allMessages)
-class GraphQLMessage extends React.PureComponent {
-  static propTypes = {
-    data: PropTypes.shape({
-      allMessages: PropTypes.arrayOf(
-        PropTypes.shape({
-          text: PropTypes.string.isRequired,
-        }),
-      ),
-    }),
-  }
-
-  render() {
-    const { data } = this.props;
-    const message = data.allMessages && data.allMessages[0].text;
-    const isLoading = data.loading ? 'yes' : 'nope';
-    return (
-      <div>
-        <h2>Message from GraphQL server: <em>{message}</em></h2>
-        <h2>Currently loading?: {isLoading}</h2>
-      </div>
-    );
-  }
-}
+const GraphQLMessage = graphql(allMessages)(
+  class GraphQLMessageClass extends React.PureComponent<DefaultPropsType, PropsType, StateType> {
+    render(): React$Element<*> {
+      const { data = {} } = this.props;
+      const message = data.allMessages && data.allMessages[0].text;
+      const isLoading = data.loading ? 'yes' : 'nope';
+      return (
+        <div>
+          <h2>Message from GraphQL server: <em>{message}</em></h2>
+          <h2>Currently loading?: {isLoading}</h2>
+        </div>
+      );
+    }
+  },
+);
+// const GraphQLMessage = graphql(allMessages)(GraphQLMessageClass);
 
 // Example of CSS, SASS and LESS styles being used together
 const Styles = () => (
@@ -129,31 +137,34 @@ const Styles = () => (
 // Sample component that demonstrates using a part of the Redux store
 // outside of Apollo.  We can import own custom reducers in `kit/lib/redux`
 // and 'listen' to them here
-@connect(state => ({ counter: state.counter }))
-class ReduxCounter extends React.PureComponent {
-  static propTypes = {
-    counter: PropTypes.shape({
-      count: PropTypes.number.isRequired,
-    }),
-  };
+const ReduxCounter = connect(state => ({ counter: state.counter }))(
+  class ReduxCounterClass extends React.PureComponent {
+    // flow types another approach
+    props: {
+      counter: {
+        count: number,
+      },
+      dispatch: DispatchType<VoidActionType, void>,
+    };
 
-  // Trigger the `INCREMENT_COUNTER` action in Redux, to add 1 to the total
-  triggerIncrement = () => {
-    this.props.dispatch({
-      type: 'INCREMENT_COUNTER',
-    });
-  }
+    // Trigger the `INCREMENT_COUNTER` action in Redux, to add 1 to the total
+    triggerIncrement = () => {
+      this.props.dispatch({
+        type: 'INCREMENT_COUNTER',
+      });
+    }
 
-  render() {
-    const { count } = this.props.counter;
-    return (
-      <div>
-        <h2>Listening to Redux counter: {count}</h2>
-        <button onClick={this.triggerIncrement}>Increment</button>
-      </div>
-    );
-  }
-}
+    render(): React$Element<*> {
+      const { count } = this.props.counter;
+      return (
+        <div>
+          <h2>Listening to Redux counter: {count}</h2>
+          <button onClick={this.triggerIncrement}>Increment</button>
+        </div>
+      );
+    }
+  },
+);
 
 // Export a simple component that allows clicking on list items to change
 // the route, along with a <Route> 'listener' that will conditionally display

@@ -1,0 +1,70 @@
+## @see: https://flow.org/en/docs/config/options
+## -------------------------------------------------------------------------------
+[include]
+
+[ignore]
+<PROJECT_ROOT>/dist/
+
+[libs]
+
+[options]
+
+## Paths
+## -------------------------------------------------------------------------------
+module.name_mapper='^config/\(.+\)$'        -> '<PROJECT_ROOT>/config/\1'
+
+module.name_mapper='^kit/\(.+\)$'           -> '<PROJECT_ROOT>/kit/\1'
+module.name_mapper='^entry/\(.+\)$'         -> '<PROJECT_ROOT>/kit/entry/\1'
+module.name_mapper='^webpack/\(.+\)$'       -> '<PROJECT_ROOT>/kit/webpack/\1'
+module.name_mapper='^views/\(.+\)$'         -> '<PROJECT_ROOT>/kit/views/\1'
+
+module.name_mapper='^src/\(.+\)$'           -> '<PROJECT_ROOT>/src/\1'
+
+module.name_mapper='^static/\(.+\)$'        -> '<PROJECT_ROOT>/static/\1'
+
+module.name_mapper='^dist/\(.+\)$'          -> '<PROJECT_ROOT>/dist/\1'
+module.name_mapper='^distDev/\(.+\)$'       -> '<PROJECT_ROOT>/dist/dev/\1'
+module.name_mapper='^public/\(.+\)$'        -> '<PROJECT_ROOT>/dist/public/\1'
+
+module.name_mapper='^reducers/\(.+\)$'      -> '<PROJECT_ROOT>/reducers/\1'
+
+## Styles
+## -------------------------------------------------------------------------------
+module.name_mapper.extension='less' -> '<PROJECT_ROOT>/flow/mocks/CSSModule.js.flow'
+module.name_mapper.extension='scss' -> '<PROJECT_ROOT>/flow/mocks/CSSModule.js.flow'
+module.name_mapper.extension='css'  -> '<PROJECT_ROOT>/flow/mocks/CSSModule.js.flow'
+
+## Images
+## -------------------------------------------------------------------------------
+module.name_mapper.extension='png' -> '<PROJECT_ROOT>/flow/mocks/WebpackAsset.js.flow'
+module.name_mapper.extension='jpg' -> '<PROJECT_ROOT>/flow/mocks/WebpackAsset.js.flow'
+module.name_mapper.extension='svg' -> '<PROJECT_ROOT>/flow/mocks/WebpackAsset.js.flow'
+
+## GraphQL scripts
+## -------------------------------------------------------------------------------
+module.name_mapper.extension='gql' -> '<PROJECT_ROOT>/flow/mocks/GraphQLScript.js.flow'
+
+## Other
+## -------------------------------------------------------------------------------
+esproposal.class_static_fields=enable
+esproposal.class_instance_fields=enable
+esproposal.export_star_as=enable
+
+# decorators are not working yet so better don't use them
+# but if it is needed uncomment following line
+# esproposal.decorators=ignore
+
+# Defines a magical comment that suppresses any Flow errors on the following line. For example:
+# | // $FlowFixMe: suppressing this error until we can refactor
+# | var x : string = 123;
+suppress_comment=\\(.\\|\n\\)*\\$FlowFixMe
+# same but to define flow issue
+suppress_comment=\\(.\\|\n\\)*\\$FlowIssue
+
+# instead of using `any` you may use suppress_type to define some undone work. For example:
+# | var myString: $FlowFixMe = 1 + 1;
+# | var myBoolean: $FlowTODO = 1 + 1;
+suppress_type=$FlowFixMe
+suppress_type=$FlowTODO
+
+emoji=true

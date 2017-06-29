@@ -1,3 +1,5 @@
+/* flow is not needed here */
+/* eslint-disable flowtype/require-return-type, flowtype/require-parameter-type */
 /* eslint-disable import/no-dynamic-require, no-console */
 
 // Webpack entry point.  Note the .babel.js extension-- this will be parsed

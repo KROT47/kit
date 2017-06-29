@@ -1,3 +1,5 @@
+/* @flow */
+/* eslint-disable flowtype/require-return-type */
 // Environment-aware functions
 
 // Default host that any server should bind to.  This is generally just
@@ -19,6 +21,7 @@ const defaultPorts = {
 // Determines whether we're currently running in production
 const isProduction = process.env.NODE_ENV === 'production';
 const isServer = typeof SERVER !== 'undefined' && SERVER;
+const env = process.env.NODE_ENV ? process.env.NODE_ENV : 'development';
 
 // Returns the prefix of the variable on `process.env` that determines
 // whether we're running in server or browser mode, and in production or dev
@@ -57,7 +60,7 @@ export function getPort() {
   if (port) return port;
 
   // No clue from the environment -- work it out ourselves
-  return defaultPorts[process.env.NODE_ENV][isServer ? 'server' : 'browser'];
+  return defaultPorts[env][isServer ? 'server' : 'browser'];
 }
 
 // Get the browser port, based on the current environment
@@ -66,7 +69,7 @@ export function getBrowserPort() {
   if (port) return port;
 
   // No clue from the environment -- work it out ourselves
-  return defaultPorts[process.env.NODE_ENV].browser;
+  return defaultPorts[env].browser;
 }
 
 // Get the server port, based on the current environment
@@ -75,7 +78,7 @@ export function getServerPort() {
   if (port) return port;
 
   // No clue from the environment -- work it out ourselves
-  return defaultPorts[process.env.NODE_ENV].server;
+  return defaultPorts[env].server;
 }
 
 // Get the protocol://host:port of where the current server would bind
