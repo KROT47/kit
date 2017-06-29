@@ -66,6 +66,7 @@ Flow lib lies in `flow-typed` directory by default. Use [flow-typed](https://git
 All global variables should be declared in `flow-typed/globals.js`.
 For configuration settings goto `.flowconfig` in project root.
 There are no `.flowconfig.js` analog so all user-defined paths in `config/paths.js` should be added by hand.
+Flow doesn't understand file extensions like `.jpg` and `.gql` so it is needed to setup them - see example in `.flowconfig`.
 If any errors occured which you can't handle you can use magic comments and types to skip them and resolve later:
 - Comments `// $FlowFixMe` and `// $FlowIssue` - flow will ignore next line ( to redefine see `.flowconfig` )
 - Types `$FlowFixMe` and `$FlowTODO` - flow will ignore these types ( to redefine see `.flowconfig` )
