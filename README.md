@@ -62,6 +62,7 @@ Flow is Facebook's project to prevent runtime errors right while developing.
 Flow replaces React PropTypes with own types. This allows to catch errors while compiling rather then in browser.  
 There are some useful [docs](https://flow.org/en/docs/) that you should be aware of.  
 **Using flow**  
+Only files with `/* @flow */` comment are used by flow checker.  
 Flow lib lies in `flow-typed` directory by default. Use [flow-typed](https://github.com/flowtype/flow-typed) to easily add and update modules added by community or add your own.  
 All global variables should be declared in `flow-typed/globals.js`.  
 For configuration settings goto `.flowconfig` in project root.  
