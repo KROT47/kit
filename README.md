@@ -73,7 +73,8 @@ If any errors occured which you can't handle you can use magic comments and type
 - Types `$FlowFixMe` and `$FlowTODO` - flow will ignore these types ( to redefine see `.flowconfig` )
 
 [Flow doesn't understand decorators](https://flow.org/en/docs/config/options/#toc-esproposal-decorators-ignore-warn) yet due to early stage so better not to use them.  
-Commands `npm start` will start flow service automatically in background watch mode ( only in `development` env ).
+Commands `npm start` will start flow service automatically in background watch mode ( only in `development` env ).  
+Important to know: if you use flow globally to i.e. use [editor plugin](https://flow.org/en/docs/editors/sublime-text/) then you must be sure that global version is the same as local one. If not - two versions may conflict and restart flow-server each time on file change which will result in long time compiling.
 
 ## Usage
 
